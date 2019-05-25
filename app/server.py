@@ -57,11 +57,11 @@ async def analyze(request):
     #img_bytes = await (data['file'].read())
     byteImgIO = io.BytesIO()
     response = requests.get("https://res.cloudinary.com/dowbtnv7a/image/upload/v1558783453/admin/oo53q2zropq4zowq7aci.jpg")
-    byteImg = PIL.Image.open(BytesIO(response.content))
-    byteImg.save(byteImgIO, "JPG")
-    byteImgIO.seek(0)
-    byteImg = byteImgIO.read()
-    img = open_image(BytesIO(byteImg))#img_bytes))
+    #byteImg = PIL.Image.open(BytesIO(response.content))
+    #byteImg.save(byteImgIO, "JPG")
+    #byteImgIO.seek(0)
+    #byteImg = byteImgIO.read()
+    img = open_image(BytesIO(response.content))#img_bytes))
     prediction = learn.predict(img)[0]
     return JSONResponse({'result': str(prediction)})
 
