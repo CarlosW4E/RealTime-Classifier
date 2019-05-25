@@ -52,10 +52,15 @@ def index(request):
 @app.route('/analyze', methods=['POST'])
 async def analyze(request):
     data = await request.form()
-    img_bytes = await (data['file'].read())
-    img = open_image(BytesIO(img_bytes))
+    #img_bytes = await (data['file'].read())
+    byteImgIO = io.BytesIO()
+    byteImg = Image.open("https://res.cloudinary.com/dowbtnv7a/image/upload/v1558783453/admin/oo53q2zropq4zowq7aci.jpg")
+    byteImg.save(byteImgIO, "JPG")
+    byteImgIO.seek(0)
+    byteImg = byteImgIO.read()
+    img = open_image(BytesIO(byteImg))#img_bytes))
     prediction = learn.predict(img)[0]
-    return JSONResponse({'result': str(data['file'].read()), 'result2' : str(data['file'])})#str(prediction)})
+    return JSONResponse({'result': str(prediction)})
 
 if __name__ == '__main__':
     if 'serve' in sys.argv: uvicorn.run(app=app, host='0.0.0.0', port=5042)
